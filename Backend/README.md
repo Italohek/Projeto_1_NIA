@@ -36,29 +36,7 @@ backend/
 ---
 
 ## 🧱 Instalação Local
-### 1️⃣ Crie e ative o ambiente do docker
-
-```bash
-1.1 Garanta que você tenha o docker instalado.
-
-1.2 Execute na pasta do backend (aonde estão o docker compose e Dockerfile):
-docker compose down -v 2>/dev/null || true
-docker compose build --no-cache data-generator
-docker compose up -d postgres
-docker compose run --rm data-generator
-docker compose --profile tools up -d pgadmin
-
-1.3 Após isso teste para ver se o bd está correto
-docker compose exec postgres psql -U challenge challenge_db -c 'SELECT COUNT(*) FROM sales;'
-
-Isso deve mostrar ~500k
-
-Caso tudo esteja certo, execute:
-1.4 sudo docker compose up -d postgres
-1.5 sudo docker compose up -d pgadmin
-```
-
-### 2️⃣ Crie e ative o ambiente virtual
+### 1️⃣ Crie e ative o ambiente virtual
 
 ```bash
 cd backend
@@ -79,4 +57,27 @@ O backend ficará disponível em:
 Documentação interativa:
 
 Swagger UI → http://127.0.0.1:8000/docs
+```
+
+### 2️⃣ Crie e ative o ambiente do docker
+
+
+```bash
+1.1 Garanta que você tenha o docker instalado.
+
+1.2 Execute na pasta do backend (aonde estão o docker compose e Dockerfile):
+sudo docker compose down -v 2>/dev/null || true
+sudo docker compose build --no-cache data-generator
+sudo docker compose up -d postgres
+sudo docker compose run --rm data-generator
+sudo docker compose --profile tools up -d pgadmin
+
+1.3 Após isso teste para ver se o bd está correto
+docker compose exec postgres psql -U challenge challenge_db -c 'SELECT COUNT(*) FROM sales;'
+
+Isso deve mostrar ~500k
+
+Caso tudo esteja certo, execute:
+1.4 sudo docker compose up -d postgres
+1.5 sudo docker compose up -d pgadmin
 ```
