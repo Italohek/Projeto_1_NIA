@@ -1,79 +1,82 @@
-# 🏆 God Level Coder Challenge
+# ⚙️ Backend — FastAPI (Catálogo de Restaurantes)
 
-## O Problema
-
-Donos de restaurantes gerenciam operações complexas através de múltiplos canais (presencial, iFood, Rappi, app próprio). Eles têm dados de **vendas, produtos, clientes e operações**, mas não conseguem extrair insights personalizados para tomar decisões de negócio.
-
-Ferramentas como Power BI são genéricas demais. Dashboards fixos não respondem perguntas específicas. **Como empoderar donos de restaurantes a explorarem seus próprios dados?**
-
-## Seu Desafio
-
-Construa uma solução que permita donos de restaurantes **criarem suas próprias análises** sobre seus dados operacionais. Pense: "Power BI para restaurantes" ou "Metabase específico para food service".
-
-### O que esperamos
-
-Uma plataforma onde um dono de restaurante possa:
-- Visualizar métricas relevantes (faturamento, produtos mais vendidos, horários de pico)
-- Criar dashboards personalizados sem escrever código
-- Comparar períodos e identificar tendências
-- Extrair valor de dados complexos de forma intuitiva
-
-### O que você recebe
-
-- Script para geração de **500.000 vendas** de 6 meses (50 lojas, múltiplos canais)
-- Schema PostgreSQL com dados realistas de operação
-- Liberdade total de tecnologias e arquitetura
-- Liberdade total no uso de AI e ferramentas de geração de código
-
-### O que você entrega
-
-1. Uma solução funcionando (deployed ou local) - com frontend e backend adequados ao banco fornecido
-2. Documentação de decisões arquiteturais
-3. Demo em vídeo (5-10 min) explicando sua abordagem - mostrando a solução funcional e deployada / rodando na sua máquina, apresentando-a no nível de detalhes que julgar relevante
-4. Código bem escrito e testável
-
-## 📚 Documentação
-
-| Documento | Descrição |
-|-----------|-----------|
-| [PROBLEMA.md](./PROBLEMA.md) | Contexto detalhado, persona Maria, dores do usuário |
-| [DADOS.md](./DADOS.md) | Schema completo, padrões, volume de dados |
-| [AVALIACAO.md](./AVALIACAO.md) | Como avaliaremos sua solução |
-| [FAQ.md](./FAQ.md) | Perguntas frequentes |
-| [QUICKSTART.md](./QUICKSTART.md) | Tutorial rápido para começar o desafio |
-
-## Avaliação
-
-**Não** estamos avaliando se você seguiu instruções específicas.  
-**Sim** estamos avaliando:
-- Pensamento arquitetural e decisões técnicas
-- Qualidade da solução para o problema do usuário
-- Performance e escala
-- UX e usabilidade
-- Metodologia de trabalho e entrega
-
-
-## Prazo
-
-Até 03/11/2025 às 23:59.
-
-## Submissão
-
-Mande um email para gsilvestre@arcca.io
-
-Com:
-- Link do repositório (público ou nos dê acesso)
-- Link do vídeo demo (5-10 min)
-- Link do deploy (opcional mas valorizado)
-- Documento de decisões arquiteturais
-
-## Suporte
-- 💬 **Discord**: https://discord.gg/pRwmm64Vej
-- 📧 **Email**: gsilvestre@arcca.io
-- 📧 **Telefone**: (11) 93016 - 3509
+Este é o **backend** da aplicação de catálogo de restaurantes, desenvolvido com [FastAPI](https://fastapi.tiangolo.com/).  
+Ele fornece uma API RESTful para o frontend, realizando operações como listagem, consulta e análise de dados de restaurantes e vendas.
 
 ---
 
-**Não queremos que você adivinhe o que queremos. Queremos ver como VOCÊ resolveria este problema.**
+## 🧰 Tecnologias Principais
 
-_Nola • 2025_
+| Categoria | Ferramenta |
+|------------|-------------|
+| Framework  | FastAPI |
+| Banco de Dados | PostgreSQL |
+| ORM | SQLAlchemy |
+| Containerização | Docker & Docker Compose |
+| Ambiente Virtual | venv (Python padrão) |
+
+---
+
+## 🧩 Estrutura do Projeto
+```text
+backend/
+├── __pycache__/
+├── routers/ # rotas
+├── main.py # ponto de entrada FastAPI
+├── database.py # conexão com o banco
+├── generate_data.py
+├── models.py # modelos do SQLAlchemy
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── database-schema.sql
+└── README.md
+```
+
+---
+
+## 🧱 Instalação Local
+### 1️⃣ Crie e ative o ambiente do docker
+
+```bash
+1.1 Garanta que você tenha o docker instalado.
+
+1.2 Execute na pasta do backend (aonde estão o docker compose e Dockerfile):
+docker compose down -v 2>/dev/null || true
+docker compose build --no-cache data-generator
+docker compose up -d postgres
+docker compose run --rm data-generator
+docker compose --profile tools up -d pgadmin
+
+1.3 Após isso teste para ver se o bd está correto
+docker compose exec postgres psql -U challenge challenge_db -c 'SELECT COUNT(*) FROM sales;'
+
+Isso deve mostrar ~500k
+
+Caso tudo esteja certo, execute:
+1.4 sudo docker compose up -d postgres
+1.5 sudo docker compose up -d pgadmin
+```
+
+### 2️⃣ Crie e ative o ambiente virtual
+
+```bash
+cd backend
+python3 -m venv env
+source env/bin/activate
+
+2.1 Instale as dependências
+
+pip install -r requirements.txt
+
+2.2 Execute o servidor FastAPI
+
+uvicorn app.main:app --reload
+
+O backend ficará disponível em:
+👉 http://127.0.0.1:8000
+
+Documentação interativa:
+
+Swagger UI → http://127.0.0.1:8000/docs
+```
